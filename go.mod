@@ -1,6 +1,8 @@
 module github.com/yangjie500/media_extractor_ffmpeg
 
-go 1.22.2
+go 1.23
+
+toolchain go1.24.7
 
 require (
 	github.com/aws/aws-sdk-go-v2 v1.39.2 // indirect
@@ -22,4 +24,7 @@ require (
 	github.com/aws/aws-sdk-go-v2/service/sts v1.38.6 // indirect
 	github.com/aws/smithy-go v1.23.0 // indirect
 	github.com/joho/godotenv v1.5.1 // indirect
+	github.com/klauspost/compress v1.15.9 // indirect
+	github.com/pierrec/lz4/v4 v4.1.15 // indirect
+	github.com/segmentio/kafka-go v0.4.49 // indirect
 )

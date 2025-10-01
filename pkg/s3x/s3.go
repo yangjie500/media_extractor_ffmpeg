@@ -1,9 +1,10 @@
-package s3c
+package s3x
 
 import (
 	"context"
 	"fmt"
 	"io"
+	"os"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -48,4 +49,32 @@ func (c *Client) GetObjectToWriter(ctx context.Context, bucket, key string, w io
 	}
 
 	return nil
+}
+
+func (c *Client) PutObjectFromFile(ctx context.Context, bucket, key string, filepath, contentType string) error {
+	file, err := os.Open(filepath)
+	if err != nil {
+		return fmt.Errorf("open file: %w", err)
+	}
+	defer file.Close()
+
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Minute)
+	defer cancel()
+
+	input := &s3.PutObjectInput{
+		Bucket: aws.String(bucket),
+		Key:    aws.String(key),
+		Body:   file,
+	}
+
+	if contentType != "" {
+		input.ContentType = aws.String(contentType)
+	}
+
+	if _, err := c.S3.PutObject(ctx, input); err != nil {
+		return fmt.Errorf("s3 put %s/%s: %w", bucket, key, err)
+	}
+
+	return nil
+
 }
