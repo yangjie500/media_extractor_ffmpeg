@@ -29,9 +29,9 @@ func main() {
 	}
 
 	req := MergeRequest{
-		VideoBucket:   "xxx",
+		VideoBucket:   "media-extractor",
 		VideoKey:      "connor/video.mp4",
-		AudioBucket:   "xxx",
+		AudioBucket:   "media-extractor",
 		AudioKey:      "connor/audio.m4a",
 		VideoID:       "vid-123",
 		AudioID:       "aud-456",

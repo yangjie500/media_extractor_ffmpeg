@@ -1,4 +1,6 @@
 .env.production
+logs
 
 # Temporary Stuff
 tmp/*
+tmp-asd/*

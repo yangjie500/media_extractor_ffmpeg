@@ -17,6 +17,8 @@ import (
 )
 
 type MergeRequest struct {
+	MediaKey string `json:"media_id"`
+
 	VideoBucket string `json:"video_bucket"`
 	VideoKey    string `json:"video_key"`
 	AudioBucket string `json:"audio_bucket"`

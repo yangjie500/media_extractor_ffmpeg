@@ -30,8 +30,11 @@ type Config struct {
 	KafkaCommitEvery time.Duration
 
 	// Kafka
-	KafkaProducerBroker []string
-	KafkaProducerTopic  string
+	AutoCreateTopics            bool
+	KafkaProducerBroker         []string
+	KafkaProducerTopic          string
+	KafkaOutputTopicPartitions  int
+	KafkaOutputTopicReplication int
 }
 
 func LoadAll(dotenvPaths ...string) (Config, error) {
@@ -80,6 +83,10 @@ func Load() (Config, error) {
 	cfg.KafkaStartOffset = strings.ToLower(getenv("KAFKA_START_OFFSET", "last"))
 
 	// --- Kafka Producer ---
+	cfg.AutoCreateTopics = getenv("AUTO_CREATE_TOPICS", "false") == "true"
+	// defaults sensible for local single-broker
+	cfg.KafkaOutputTopicPartitions = mustInt("KAFKA_OUTPUT_TOPIC_PARTITIONS", 1, &errs)
+	cfg.KafkaOutputTopicReplication = mustInt("KAFKA_OUTPUT_TOPIC_REPLICATION", 1, &errs)
 	KafkaProducerBroker := getenv("KAFKA_BROKERS_PRODUCER", "")
 	if brokers == "" {
 		errs = append(errs, "KAFKA_BROKERS_PRODUCER is required (comma-separated)")
